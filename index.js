@@ -31,7 +31,7 @@ app.post("/api/shorturl", function (req, res) {
     urlparser.parse(req.body.url).hostname,
     async (err, address) => {
       if (!address) {
-        res.json({ error: "Invaild URL" });
+        res.json({ error: 'invalid url' });
       } else {
         const urlCount = await urls.countDocuments({});
         const urlDoc = {
@@ -48,7 +48,7 @@ app.post("/api/shorturl", function (req, res) {
 
 app.get("/api/shorturl/:short_url", async (req, res) => {
   const shortUrl = req.params.short_url;
-  const urlDoc = await urls.findOne({ short_url: req.params.short_url});
+  const urlDoc = await urls.findOne({ short_url: +shortUrl });
   res.redirect(urlDoc.url);
 });
 
